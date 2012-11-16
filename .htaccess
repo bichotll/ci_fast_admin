@@ -1,0 +1,50 @@
+RewriteEngine on  
+RewriteCond $1 !^(index\.php|lib|images|linkedin|mailing|upload|robots\.txt|humans\.txt|PIE\.htc|test)  
+RewriteRule ^(.*)$ index.php/$1 [L]  
+
+# per habilitar la caché per només una setmana
+<ifmodule mod_expires.c>
+ ExpiresActive On
+ ExpiresDefault A3600
+ <filesmatch ".(jpg|JPG|gif|GIF|png|css|ico|js)$">
+  ExpiresDefault "access plus 7 day"
+ </filesmatch>
+</ifmodule>
+
+#AuthName "Restricted Area" 
+#AuthType Basic 
+#AuthUserFile /.htpasswd 
+#AuthGroupFile /dev/null 
+#require valid-user
+
+
+
+# per habilitar la compresió al seguent tipu d'arxius
+<ifmodule deflate_module>
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+
+    # NIVEL DE COMPRESIÓN
+    #DeflateCompressionLevel 8
+
+    # NO USAR COMPRESIÓN EN NAVEGADORES QUE NO LO SOPORTAN
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # NO COMPRIMIMOS IMÁGENES, FICHEROS COMPRIMIDOS Y PDFs
+    SetOutputFilter DEFLATE
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ \
+    no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \
+    \.(?:exe|t?gz|zip|bz2|sit|rar)$ \
+    no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.pdf$ no-gzip dont-vary
+</ifmodule>
