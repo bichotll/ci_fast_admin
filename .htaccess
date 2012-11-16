@@ -11,11 +11,13 @@ RewriteRule ^(.*)$ index.php/$1 [L]
  </filesmatch>
 </ifmodule>
 
-#AuthName "Restricted Area" 
-#AuthType Basic 
-#AuthUserFile /.htpasswd 
-#AuthGroupFile /dev/null 
-#require valid-user
+
+
+AuthUserFile /var/www/ruga/admin_band/.htpasswd
+AuthName "Dave's Login Area"
+AuthType Basic
+
+require user admin
 
 
 
