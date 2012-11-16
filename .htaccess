@@ -18,7 +18,7 @@ AuthName "Dave's Login Area"
 AuthType Basic
 
 require user admin
-
+#admin admin
 
 
 # per habilitar la compresió al seguent tipu d'arxius
